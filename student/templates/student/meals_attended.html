@@ -1,0 +1,29 @@
+{% extends "student/dashboard.html" %}
+{% load custom_filters %}
+{% block content %}
+	<h4>Click on the meal and select the item you want to rate from that meal*</h4>
+	{% if attended %}
+		<div class="accordion" id="accordionExample">
+			{% for meal_name, items in meals_attended_items.items %}
+				<div class="accordion-item">
+				    <h3 class="accordion-header">
+				      <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ forloop.counter }}" aria-expanded="false" aria-controls="collapse{{ forloop.counter }}">
+				        {{meal_name}}
+				      </button>
+				    </h3>
+				    <div id="collapse{{ forloop.counter }}" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+				      <div class="accordion-body">
+				        <ul class="list-group">
+				            {% for item in items %}
+			                	<a href="{% url 'rate-an-item' meal_name|custom_meal_slice|add:item %}" class="list-group-item list-group-item-secondary list-group-item-action">{{item}}</a>
+				            {% endfor %}
+				        </ul>
+				      </div>
+				    </div>
+			  	</div>
+		  	{% endfor %}
+		</div>
+	{% else %}
+		<h6>You have not attended any meals yet.</h6>
+	{% endif %}
+{% endblock content %}

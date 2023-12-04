@@ -1,0 +1,47 @@
+{% extends "staff/dashboard.html" %}
+{% load static %}
+{% block content %}
+    <div style="height: 75px">
+      <a class="btn btn-secondary btn-md mt-1 mb-1" href="{% url 'export-student-bill'%}">Export All Student Bills To Excel</a>
+    </div>
+    <h4>Enter BITS ID to Calculate Student Bill</h4>
+    <form method="get" action="">
+        {% csrf_token %}
+        <div class="input-group mb-3">
+            {{ form.search_query }}
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="submit">Search</button>
+            </div>
+        </div>
+    </form>
+    {% if bill_dict %}
+      <div class="media content-section">
+        <table class="table table-secondary table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">Student BITS ID</th>
+              <th scope="col">{{bill_dict.Student_BITS_ID}}</th>
+            </tr>
+          </thead>
+          <tbody>
+              <tr>
+                <th scope="row">Breakfast Total</th>
+                <td class="table-light">{{bill_dict.Breakfast}} * 80 = {{bill_dict.Breakfast_Total}}</td>
+              </tr>
+              <tr>
+                <th scope="row">Lunch Total</th>
+                <td class="table-light">{{bill_dict.Lunch}} * 180 = {{bill_dict.Lunch_Total}}</td>
+              </tr>
+              <tr>
+                <th scope="row">Dinner Total</th>
+                <td class="table-light">{{bill_dict.Dinner}} * 150 = {{bill_dict.Dinner_Total}}</td>
+              </tr>
+              <tr>
+                <th scope="row">Total</th>
+                <td class="table-light">{{bill_dict.Total}}</td>
+              </tr>
+            </tbody>
+        </table>
+      </div>
+    {% endif %}
+{% endblock content %}

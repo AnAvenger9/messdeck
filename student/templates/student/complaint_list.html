@@ -1,0 +1,22 @@
+{% extends "student/dashboard.html" %}
+{% block content %}
+  <div>
+    <a class="btn btn-secondary btn-md mt-1 mb-1" href="{% url 'complaint-create'%}">Write A Complaint</a>
+  </div>
+  <h4>Your Complaints</h4>
+  {%if complaints|length == 0%}
+   <p>You have not written any complaints yet</p>
+  {% endif %}
+  {% for complaint in complaints %}
+    <article class="media content-section">
+      <div class="media-body">
+        <h4 class="article-title"><a href="{% url 'complaint-detail' complaint.id%}">{{ complaint.title }}</a></h4>
+        <small class="text-muted">Posted on: {{ complaint.date_posted }}</small>
+        <p class="article-content">{{ complaint.complaint }}</p>
+        {% if complaint.image != 'default.jpg' %}
+          <img class="account-img" src="{{ complaint.image.url }}">
+        {% endif %}
+      </div>
+    </article>
+  {% endfor %}
+{% endblock content %}

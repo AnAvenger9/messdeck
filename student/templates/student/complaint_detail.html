@@ -1,0 +1,19 @@
+{% extends "student/dashboard.html" %}
+{% block content %}
+  <article class="media content-section">
+    <div class="media-body">
+      <div class="article-metadata">
+        <a class="mr-2" >Author: {{ complaint.author }}</a>
+        <p class="">BITS ID: {{ complaint.author_id }}</p>
+        <small class="text-muted">{{ complaint.date_posted }}</small>
+      </div>
+      <h2 class="article-title">{{ complaint.title }}</h2>
+      <p class="article-content">{{ complaint.complaint }}</p>
+      <img class="account-img" src="{{ complaint.image.url }}">
+      <div>
+        <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'complaint-update' complaint.id %}">Update</a>
+        <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'complaint-delete' complaint.id %}">Delete</a>
+      </div>
+    </div>
+  </article>
+{% endblock content %}

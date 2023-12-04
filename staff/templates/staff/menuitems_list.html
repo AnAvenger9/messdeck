@@ -1,0 +1,24 @@
+{% extends "staff/dashboard.html" %}
+{% block content %}
+  <div class="container">
+      <form method="get">
+          <div class="input-group input-group-sm mb-3">
+              {{ sort_form }}
+              <div class="input-group-append">
+                  <button class="btn btn-sm btn-outline-light bg-secondary" type="submit">Sort</button>
+              </div>
+          </div>
+      </form>
+    {% for item in items %}
+      {% if item.ratings != "" %}
+        <article class="media content-section">
+          <div class="media-body">
+            <h4 class="article-title">{{ item.item_name }}</h4>
+            <div><h6 class="text-muted">Avg. Rating: {{ item.avg_rating }}</h6></div>
+            <div><small class="text-muted">Served on: {{ item.date_to_be_served }} {{item.meal}}</small></div>
+          </div>
+        </article>
+      {% endif %}
+    {% endfor %}
+  </div>
+{% endblock content %}

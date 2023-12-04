@@ -1,0 +1,28 @@
+{% extends "student/dashboard.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    {% if user.studentprofile.hostel %}
+        <div class="content-section">
+        {% if attendance_already_marked %}
+            <h4>You Have Already Marked the Attendance for {{meal}} of {{date}}<h4>
+        {% else %}
+            {% if meal == ""%}
+                <h4>{{form}}</h4>
+            {% else %}
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <fieldset class="form-group">
+                        <legend class="border-bottom mb-4">Mark the Attendance for {{meal}} of {{date}}</legend>
+                        {{ form|crispy }}
+                    </fieldset>
+                    <div class="form-group">
+                        <button class="btn btn-outline-info" type="submit">Submit</button>
+                    </div>
+                </form>
+            {% endif %}
+        {% endif %}
+        </div>
+    {% else %}
+        <h6>You have not updated your hostel and BITS ID in your profile. Please do that before marking the attendance</h6>
+    {% endif %}
+{% endblock content %}

@@ -1,0 +1,20 @@
+{% extends "staff/dashboard.html" %}
+{% block content %}
+  {%if complaints|length == 0%}
+   <p>You have not written any complaints yet</p>
+  {% endif %}
+  {% for complaint in complaints %}
+    <article class="media content-section">
+      <div class="media-body">
+        <h4 class="article-title">{{ complaint.title }}</h4>
+        <div><small class="text-muted">Posted on: {{ complaint.date_posted }}</small></div>
+        <div><small class="text-muted">Mess: {{ complaint.student.mess }}</small></div>
+        <div><small class="text-muted">Student ID: {{ complaint.author_id }}</small></div>
+        <p class="article-content">{{ complaint.complaint }}</p>
+        {% if complaint.image != 'default.jpg' %}
+          <img class="account-img" src="{{ complaint.image.url }}">
+        {% endif %}
+      </div>
+    </article>
+  {% endfor %}
+{% endblock content %}

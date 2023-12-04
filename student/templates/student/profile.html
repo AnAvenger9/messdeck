@@ -1,0 +1,20 @@
+{% extends 'student/dashboard.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+	<div class="content-section">
+	 	<div class="media">
+		    <img class="rounded-circle account-img" src="{{ user.studentprofile.profile_image.url }}">
+		    <div class="media-body">
+		      <h2 class="account-heading">WELCOME {{user.first_name}} {{user.last_name}}!</h2>
+		      <p class="text-secondary">BITS Email ID: {{user.email}}</p>
+		      <p class="text-secondary">BITS ID: {{user.studentprofile.bits_id}}</p>
+		      <p class="text-secondary">Hostel: {{user.studentprofile.hostel}}</p>
+		      <p class="text-secondary">Mess: {{user.studentprofile.mess}}</p>
+			</div>
+		</div>
+		<div class="form-group">
+	        <a class="btn btn-outline-secondary" href="./update" type="submit">Update</a>
+	    </div>
+	</div>
+
+{% endblock content %}
