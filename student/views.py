@@ -143,37 +143,37 @@ def mark_attendance(request):
         current_meal="LUNCH"
     elif time_in_range(current_time,dinner_start_time,dinner_end_time):
         current_meal="DINNER"
-
-    current_user=request.user
-    if request.method == 'POST' and current_meal!="":
-        form = MarkAttendance(request.POST,
-                                instance=StudentAttendance.objects.get(student=current_user,date=today,meal=current_meal))
-        if form.is_valid():
-            form.save()
-            current_user.studentbill.save()
-            return redirect('student-dashboard')
-    elif current_meal!="":
-        form = MarkAttendance(request.POST, 
-                                instance=StudentAttendance.objects.get(student=current_user,date=today,meal=current_meal))
-    else:
-        form="Attendance cannot be accessed at the moment as there is no ongoing meal"
     
-    if current_meal=="":
-        attendance=False
-    else:
-        attendance=StudentAttendance.objects.get(student=request.user,date=today,meal=current_meal).attendance_mark
+    attendance=StudentAttendance.objects.filter(student=request.user,date=today,meal=current_meal).first()
+    print(attendance)
+    form = None
     if attendance:
-        attendance_already_marked=True
+        mark = attendance.attendance_mark
+        if not mark:
+            current_user=request.user
+            if request.method == 'POST' and current_meal!="":
+                form = MarkAttendance(request.POST,
+                                        instance=StudentAttendance.objects.get(student=current_user,date=today,meal=current_meal))
+                if form.is_valid():
+                    form.save()
+                    current_user.studentbill.save()
+                    return redirect('student-dashboard')
+            elif current_meal!="":
+                form = MarkAttendance(request.POST, 
+                                        instance=StudentAttendance.objects.get(student=current_user,date=today,meal=current_meal))  
+            
+        return render(request, 'student/mark_attendance.html', {'form': form, 
+                                                        'attendance_already_marked':mark,
+                                                        'meal':current_meal,
+                                                        'date':today})
     else:
-        attendance_already_marked=False
-    
-    return render(request, 'student/mark_attendance.html', {'form': form, 
-                                                            'attendance_already_marked':attendance_already_marked,
-                                                            'meal':current_meal,
-                                                            'date':today})
+        form = "No meal found to mark attendance"
+        return render(request, 'student/mark_attendance.html', {'form': form, 
+                                                        'attendance_already_marked':False,
+                                                        'meal': "",
+                                                        'date': ""})
 
-
-
+        
 
 
 #Complaint Views

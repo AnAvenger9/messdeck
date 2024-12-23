@@ -1,0 +1,13 @@
+venv/
+staff/migrations/
+student/migrations/
+home/migrations/
+staff/__pycache__/
+student/__pycache__/
+student/templatetags/__pycache__/
+home/__pycache__/
+messdeck/__pycache__/
+
+db.sqlite3
+debug.log
+requirements.txt
